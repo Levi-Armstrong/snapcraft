@@ -38,16 +38,6 @@ class PrimeTestCase(integration.TestCase):
             self.skipTest("The autopkgtest armhf runners can't install snaps")
         project_dir = "classic-build"
 
-        # The first run should fail as the environment variable is not
-        # set but we can only test this on clean systems.
-        if not os.path.exists(os.path.join(os.path.sep, "snap", "core", "current")):
-            try:
-                self.run_snapcraft(["prime"], project_dir)
-            except subprocess.CalledProcessError:
-                pass
-            else:
-                self.fail("This should fail as SNAPCRAFT_SETUP_CORE is not set")
-
         # Now we set the required environment variable
         self.useFixture(fixtures.EnvironmentVariable("SNAPCRAFT_SETUP_CORE", "1"))
 
